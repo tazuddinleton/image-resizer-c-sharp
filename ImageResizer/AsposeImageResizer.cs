@@ -10,34 +10,22 @@ namespace ImageResizer
     {
         public static void Resize(string dir)
         {
-
-            using (Aspose.Imaging.Image image = Aspose.Imaging.Image.Load(dir + "T2_test.png"))
+            var zoomFactor = 0.5F;
+ 
+           
+            for(int i = 0; i <= 16; i++)
             {
-                // Scale up by 2 times using Nearest Neighbour resampling.
-                image.Resize(image.Width * 2, image.Height * 2, Aspose.Imaging.ResizeType.NearestNeighbourResample);
-                image.Save(dir + "upsample.nearestneighbour.png");
-            }
 
-            using (Aspose.Imaging.Image image = Aspose.Imaging.Image.Load(dir + "T2_test.png"))
-            {
-                // Scale down by 2 times using Nearest Neighbour resampling.
-                image.Resize(image.Width / 2, image.Height / 2, Aspose.Imaging.ResizeType.NearestNeighbourResample);
-                image.Save(dir + "downsample.nearestneighbour.png");
+                using (Aspose.Imaging.Image image = Aspose.Imaging.Image.Load(dir + "T2_test.png"))
+                {
+                    int newWidth = (int)(image.Width * zoomFactor);
+                    int newHeight = (int)(image.Height * zoomFactor);
+                    // Scale down by 2 times using Bilinear resampling.
+                    image.Resize(newWidth, newHeight, (Aspose.Imaging.ResizeType)i);
+                    image.Save(dir + $"{i}.downsample.{((Aspose.Imaging.ResizeType)i).ToString()}.png");
+                }
             }
-
-            using (Aspose.Imaging.Image image = Aspose.Imaging.Image.Load(dir + "T2_test.png"))
-            {
-                // Scale up by 2 times using Bilinear resampling.
-                image.Resize(image.Width * 2, image.Height * 2, Aspose.Imaging.ResizeType.BilinearResample);
-                image.Save(dir + "upsample.bilinear.png");
-            }
-
-            using (Aspose.Imaging.Image image = Aspose.Imaging.Image.Load(dir + "T2_test.png"))
-            {
-                // Scale down by 2 times using Bilinear resampling.
-                image.Resize(image.Width / 2, image.Height / 2, Aspose.Imaging.ResizeType.BilinearResample);
-                image.Save(dir + "downsample.bilinear.png");
-            }
+            
         }
     }
 }
